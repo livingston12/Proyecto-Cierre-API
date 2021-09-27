@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BUCDWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ControlCierres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="processName" Type="varchar" MaxLength="100" />
+          <Property Name="day_cierre" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BUCDW.Proceso.CantidadFechaEjecucion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CantidadFechaEjecucion">
+          <Key>
+            <PropertyRef Name="PlanFechaEjecucionID" />
+          </Key>
+          <Property Name="PlanFechaEjecucionID" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BUCDW.Proceso.FechaEjecucion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FechaEjecucion">
+          <Key>
+            <PropertyRef Name="FechaEjecucionID" />
+            <PropertyRef Name="PlanFechaEjecucionID" />
+            <PropertyRef Name="RazonDeEjecucion" />
+            <PropertyRef Name="FechaEjecucion" />
+            <PropertyRef Name="FechaDesde" />
+            <PropertyRef Name="PermitirVariosReprocesos" />
+            <PropertyRef Name="Estado" />
+            <PropertyRef Name="Guid" />
+            <PropertyRef Name="FechaModificacion" />
+          </Key>
+          <Property Name="FechaEjecucionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanFechaEjecucionID" Type="int" Nullable="false" />
+          <Property Name="RazonDeEjecucion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaEjecucion" Type="date" Nullable="false" />
+          <Property Name="FechaDesde" Type="date" Nullable="false" />
+          <Property Name="FechaHasta" Type="date" />
+          <Property Name="PermitirVariosReprocesos" Type="bit" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="labelsPie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LabelName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BUCDW.Proceso.LogErrorSap' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LogErrorSap">
+          <Key>
+            <PropertyRef Name="GuidProcess" />
+          </Key>
+          <Property Name="GuidProcess" Type="text" Nullable="false" />
+          <Property Name="DescriptionError" Type="text" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="LogsID" />
+          </Key>
+          <Property Name="LogsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcesoGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProcesoNombre" Type="varchar" MaxLength="150" />
+          <Property Name="FechaEjecucion" Type="date" Nullable="false" />
+          <Property Name="FechaDesde" Type="date" Nullable="false" />
+          <Property Name="FechaHasta" Type="date" Nullable="false" />
+          <Property Name="EstatusDelProceso" Type="int" Nullable="false" />
+          <Property Name="MensajeError" Type="varchar(max)" />
+          <Property Name="ReEjecutadoCodigo" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="bit" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlanFechaEjecucion">
+          <Key>
+            <PropertyRef Name="PlanFechaEjecucionID" />
+          </Key>
+          <Property Name="PlanFechaEjecucionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Plan" Type="varchar" MaxLength="100" />
+          <Property Name="QueryGenerator" Type="varchar(max)" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FechaModificacion" Type="date" Nullable="false" />
+          <Property Name="type_fecha" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Proceso">
+          <Key>
+            <PropertyRef Name="ProcesoID" />
+          </Key>
+          <Property Name="ProcesoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanFechaEjecucionID" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="GuidRelacional" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PermitirNotificaciones" Type="bit" Nullable="false" />
+          <Property Name="PermitirRecordatorioCalendario" Type="bit" Nullable="false" />
+          <Property Name="PermitirUltimoEstatusCalendario" Type="bit" Nullable="false" />
+          <Property Name="RepetirProcesoDespuesFallo" Type="bit" Nullable="false" />
+          <Property Name="MaximaRepeticionDeProceso" Type="int" Nullable="false" />
+          <Property Name="ProcesoIDDependiente" Type="int" />
+          <Property Name="Estado" Type="bit" />
+          <Property Name="Guid" Type="uniqueidentifier" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="procesoFechasCierre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_process" Type="int" Nullable="false" />
+          <Property Name="day_clouser" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BUCDW.Proceso.vw_ListJobs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ListJobs">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="enabled" />
+            <PropertyRef Name="serverName" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="512" />
+          <Property Name="enabled" Type="tinyint" Nullable="false" />
+          <Property Name="serverName" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CantidadF__PlanF__4AA3D7AE">
+          <End Role="PlanFechaEjecucion" Type="Self.PlanFechaEjecucion" Multiplicity="1" />
+          <End Role="CantidadFechaEjecucion" Type="Self.CantidadFechaEjecucion" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PlanFechaEjecucion">
+              <PropertyRef Name="PlanFechaEjecucionID" />
+            </Principal>
+            <Dependent Role="CantidadFechaEjecucion">
+              <PropertyRef Name="PlanFechaEjecucionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__procesoFe__ID_pr__67FF306B">
+          <End Role="Proceso" Type="Self.Proceso" Multiplicity="1" />
+          <End Role="procesoFechasCierre" Type="Self.procesoFechasCierre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proceso">
+              <PropertyRef Name="ProcesoID" />
+            </Principal>
+            <Dependent Role="procesoFechasCierre">
+              <PropertyRef Name="ID_process" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CorrerJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Proceso">
+          <Parameter Name="job_name" Type="varchar" Mode="In" />
+          <Parameter Name="serverName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetValuesPie" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Proceso">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="BUCDWModelStoreContainer">
+          <EntitySet Name="ControlCierres" EntityType="Self.ControlCierres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="labelsPie" EntityType="Self.labelsPie" Schema="Proceso" store:Type="Tables" />
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="Proceso" store:Type="Tables" />
+          <EntitySet Name="PlanFechaEjecucion" EntityType="Self.PlanFechaEjecucion" Schema="Proceso" store:Type="Tables" />
+          <EntitySet Name="Proceso" EntityType="Self.Proceso" Schema="Proceso" store:Type="Tables" />
+          <EntitySet Name="procesoFechasCierre" EntityType="Self.procesoFechasCierre" Schema="Proceso" store:Type="Tables" />
+          <EntitySet Name="CantidadFechaEjecucion" EntityType="Self.CantidadFechaEjecucion" store:Type="Tables" store:Schema="Proceso">
+            <DefiningQuery>SELECT 
+    [CantidadFechaEjecucion].[PlanFechaEjecucionID] AS [PlanFechaEjecucionID], 
+    [CantidadFechaEjecucion].[cantidad] AS [cantidad]
+    FROM [Proceso].[CantidadFechaEjecucion] AS [CantidadFechaEjecucion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FechaEjecucion" EntityType="Self.FechaEjecucion" store:Type="Tables" store:Schema="Proceso">
+            <DefiningQuery>SELECT 
+    [FechaEjecucion].[FechaEjecucionID] AS [FechaEjecucionID], 
+    [FechaEjecucion].[PlanFechaEjecucionID] AS [PlanFechaEjecucionID], 
+    [FechaEjecucion].[RazonDeEjecucion] AS [RazonDeEjecucion], 
+    [FechaEjecucion].[FechaEjecucion] AS [FechaEjecucion], 
+    [FechaEjecucion].[FechaDesde] AS [FechaDesde], 
+    [FechaEjecucion].[FechaHasta] AS [FechaHasta], 
+    [FechaEjecucion].[PermitirVariosReprocesos] AS [PermitirVariosReprocesos], 
+    [FechaEjecucion].[Estado] AS [Estado], 
+    [FechaEjecucion].[Guid] AS [Guid], 
+    [FechaEjecucion].[FechaModificacion] AS [FechaModificacion]
+    FROM [Proceso].[FechaEjecucion] AS [FechaEjecucion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LogErrorSap" EntityType="Self.LogErrorSap" store:Type="Tables" store:Schema="Proceso">
+            <DefiningQuery>SELECT 
+    [LogErrorSap].[GuidProcess] AS [GuidProcess], 
+    [LogErrorSap].[DescriptionError] AS [DescriptionError], 
+    [LogErrorSap].[Date] AS [Date]
+    FROM [Proceso].[LogErrorSap] AS [LogErrorSap]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_ListJobs" EntityType="Self.vw_ListJobs" store:Type="Views" store:Schema="Proceso">
+            <DefiningQuery>SELECT 
+    [vw_ListJobs].[name] AS [name], 
+    [vw_ListJobs].[description] AS [description], 
+    [vw_ListJobs].[enabled] AS [enabled], 
+    [vw_ListJobs].[serverName] AS [serverName]
+    FROM [Proceso].[vw_ListJobs] AS [vw_ListJobs]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__CantidadF__PlanF__4AA3D7AE" Association="Self.FK__CantidadF__PlanF__4AA3D7AE">
+            <End Role="PlanFechaEjecucion" EntitySet="PlanFechaEjecucion" />
+            <End Role="CantidadFechaEjecucion" EntitySet="CantidadFechaEjecucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__procesoFe__ID_pr__67FF306B" Association="Self.FK__procesoFe__ID_pr__67FF306B">
+            <End Role="Proceso" EntitySet="Proceso" />
+            <End Role="procesoFechasCierre" EntitySet="procesoFechasCierre" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BUCDWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PlanFechaEjecucion">
+          <Key>
+            <PropertyRef Name="PlanFechaEjecucionID" />
+          </Key>
+          <Property Name="PlanFechaEjecucionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Plan" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QueryGenerator" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="type_fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CantidadFechaEjecucion" Relationship="Self.FK__CantidadF__PlanF__4AA3D7AE" FromRole="PlanFechaEjecucion" ToRole="CantidadFechaEjecucion" />
+        </EntityType>
+        <EntityType Name="CantidadFechaEjecucion">
+          <Key>
+            <PropertyRef Name="PlanFechaEjecucionID" />
+          </Key>
+          <Property Name="PlanFechaEjecucionID" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <NavigationProperty Name="PlanFechaEjecucion" Relationship="Self.FK__CantidadF__PlanF__4AA3D7AE" FromRole="CantidadFechaEjecucion" ToRole="PlanFechaEjecucion" />
+        </EntityType>
+        <EntityType Name="FechaEjecucion">
+          <Key>
+            <PropertyRef Name="FechaEjecucionID" />
+            <PropertyRef Name="PlanFechaEjecucionID" />
+            <PropertyRef Name="RazonDeEjecucion" />
+            <PropertyRef Name="FechaEjecucion1" />
+            <PropertyRef Name="FechaDesde" />
+            <PropertyRef Name="PermitirVariosReprocesos" />
+            <PropertyRef Name="Estado" />
+            <PropertyRef Name="Guid" />
+            <PropertyRef Name="FechaModificacion" />
+          </Key>
+          <Property Name="FechaEjecucionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanFechaEjecucionID" Type="Int32" Nullable="false" />
+          <Property Name="RazonDeEjecucion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaEjecucion1" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaHasta" Type="DateTime" Precision="0" />
+          <Property Name="PermitirVariosReprocesos" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="LogErrorSap">
+          <Key>
+            <PropertyRef Name="GuidProcess" />
+          </Key>
+          <Property Name="GuidProcess" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DescriptionError" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Proceso">
+          <Key>
+            <PropertyRef Name="ProcesoID" />
+          </Key>
+          <Property Name="ProcesoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanFechaEjecucionID" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GuidRelacional" Type="Guid" Nullable="false" />
+          <Property Name="PermitirNotificaciones" Type="Boolean" Nullable="false" />
+          <Property Name="PermitirRecordatorioCalendario" Type="Boolean" Nullable="false" />
+          <Property Name="PermitirUltimoEstatusCalendario" Type="Boolean" Nullable="false" />
+          <Property Name="RepetirProcesoDespuesFallo" Type="Boolean" Nullable="false" />
+          <Property Name="MaximaRepeticionDeProceso" Type="Int32" Nullable="false" />
+          <Property Name="ProcesoIDDependiente" Type="Int32" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Guid" Type="Guid" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="procesoFechasCierres" Relationship="BUCDWModel.FK__procesoFe__ID_pr__67FF306B" FromRole="Proceso" ToRole="procesoFechasCierre" />
+        </EntityType>
+        <Association Name="FK__CantidadF__PlanF__4AA3D7AE">
+          <End Role="PlanFechaEjecucion" Type="Self.PlanFechaEjecucion" Multiplicity="1" />
+          <End Role="CantidadFechaEjecucion" Type="Self.CantidadFechaEjecucion" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PlanFechaEjecucion">
+              <PropertyRef Name="PlanFechaEjecucionID" />
+            </Principal>
+            <Dependent Role="CantidadFechaEjecucion">
+              <PropertyRef Name="PlanFechaEjecucionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BUCDWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PlanFechaEjecucions" EntityType="Self.PlanFechaEjecucion" />
+          <EntitySet Name="CantidadFechaEjecucions" EntityType="Self.CantidadFechaEjecucion" />
+          <EntitySet Name="FechaEjecucions" EntityType="Self.FechaEjecucion" />
+          <EntitySet Name="LogErrorSaps" EntityType="Self.LogErrorSap" />
+          <EntitySet Name="Procesoes" EntityType="Self.Proceso" />
+          <AssociationSet Name="FK__CantidadF__PlanF__4AA3D7AE" Association="Self.FK__CantidadF__PlanF__4AA3D7AE">
+            <End Role="PlanFechaEjecucion" EntitySet="PlanFechaEjecucions" />
+            <End Role="CantidadFechaEjecucion" EntitySet="CantidadFechaEjecucions" />
+          </AssociationSet>
+          <FunctionImport Name="sp_GetValuesPie" ReturnType="Collection(BUCDWModel.sp_GetValuesPie_Result)">
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="labelsPies" EntityType="BUCDWModel.labelsPie" />
+          <EntitySet Name="Logs" EntityType="BUCDWModel.Log" />
+          <EntitySet Name="procesoFechasCierres" EntityType="BUCDWModel.procesoFechasCierre" />
+          <AssociationSet Name="FK__procesoFe__ID_pr__67FF306B" Association="BUCDWModel.FK__procesoFe__ID_pr__67FF306B">
+            <End Role="Proceso" EntitySet="Procesoes" />
+            <End Role="procesoFechasCierre" EntitySet="procesoFechasCierres" />
+          </AssociationSet>
+          <EntitySet Name="ControlCierres" EntityType="BUCDWModel.ControlCierre" />
+          <EntitySet Name="vw_ListJobs" EntityType="BUCDWModel.vw_ListJobs" />
+          <FunctionImport Name="CorrerJob">
+          <Parameter Name="job_name" Mode="In" Type="String" />
+            <Parameter Name="serverName" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetValuesPie_Result">
+          <Property Type="Int32" Name="TotalcorridoHoy" Nullable="true" />
+          <Property Type="Int32" Name="TotalNocorrido" Nullable="true" />
+          <Property Type="Int32" Name="TotalEnproceso" Nullable="true" />
+          <Property Type="Int32" Name="Total_conErrores" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="labelsPie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LabelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogsID" />
+          </Key>
+          <Property Name="LogsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcesoGUID" Type="Guid" Nullable="false" />
+          <Property Name="ProcesoNombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEjecucion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EstatusDelProceso" Type="Int32" Nullable="false" />
+          <Property Name="MensajeError" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReEjecutadoCodigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
+          <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="procesoFechasCierre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_process" Type="Int32" Nullable="false" />
+          <Property Name="day_clouser" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Proceso" Relationship="BUCDWModel.FK__procesoFe__ID_pr__67FF306B" FromRole="procesoFechasCierre" ToRole="Proceso" />
+        </EntityType>
+        <Association Name="FK__procesoFe__ID_pr__67FF306B">
+          <End Type="BUCDWModel.Proceso" Role="Proceso" Multiplicity="1" />
+          <End Type="BUCDWModel.procesoFechasCierre" Role="procesoFechasCierre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proceso">
+              <PropertyRef Name="ProcesoID" />
+            </Principal>
+            <Dependent Role="procesoFechasCierre">
+              <PropertyRef Name="ID_process" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ControlCierre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="processName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="day_cierre" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="vw_ListJobs">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="enabled" />
+            <PropertyRef Name="serverName" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="enabled" Type="Byte" Nullable="false" />
+          <Property Name="serverName" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BUCDWModelStoreContainer" CdmEntityContainer="BUCDWEntities">
+          <EntitySetMapping Name="PlanFechaEjecucions">
+            <EntityTypeMapping TypeName="BUCDWModel.PlanFechaEjecucion">
+              <MappingFragment StoreEntitySet="PlanFechaEjecucion">
+                <ScalarProperty Name="PlanFechaEjecucionID" ColumnName="PlanFechaEjecucionID" />
+                <ScalarProperty Name="Plan" ColumnName="Plan" />
+                <ScalarProperty Name="QueryGenerator" ColumnName="QueryGenerator" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="type_fecha" ColumnName="type_fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CantidadFechaEjecucions">
+            <EntityTypeMapping TypeName="BUCDWModel.CantidadFechaEjecucion">
+              <MappingFragment StoreEntitySet="CantidadFechaEjecucion">
+                <ScalarProperty Name="PlanFechaEjecucionID" ColumnName="PlanFechaEjecucionID" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FechaEjecucions">
+            <EntityTypeMapping TypeName="BUCDWModel.FechaEjecucion">
+              <MappingFragment StoreEntitySet="FechaEjecucion">
+                <ScalarProperty Name="FechaEjecucionID" ColumnName="FechaEjecucionID" />
+                <ScalarProperty Name="PlanFechaEjecucionID" ColumnName="PlanFechaEjecucionID" />
+                <ScalarProperty Name="RazonDeEjecucion" ColumnName="RazonDeEjecucion" />
+                <ScalarProperty Name="FechaEjecucion1" ColumnName="FechaEjecucion" />
+                <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
+                <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
+                <ScalarProperty Name="PermitirVariosReprocesos" ColumnName="PermitirVariosReprocesos" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogErrorSaps">
+            <EntityTypeMapping TypeName="BUCDWModel.LogErrorSap">
+              <MappingFragment StoreEntitySet="LogErrorSap">
+                <ScalarProperty Name="GuidProcess" ColumnName="GuidProcess" />
+                <ScalarProperty Name="DescriptionError" ColumnName="DescriptionError" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Procesoes">
+            <EntityTypeMapping TypeName="BUCDWModel.Proceso">
+              <MappingFragment StoreEntitySet="Proceso">
+                <ScalarProperty Name="ProcesoID" ColumnName="ProcesoID" />
+                <ScalarProperty Name="PlanFechaEjecucionID" ColumnName="PlanFechaEjecucionID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="GuidRelacional" ColumnName="GuidRelacional" />
+                <ScalarProperty Name="PermitirNotificaciones" ColumnName="PermitirNotificaciones" />
+                <ScalarProperty Name="PermitirRecordatorioCalendario" ColumnName="PermitirRecordatorioCalendario" />
+                <ScalarProperty Name="PermitirUltimoEstatusCalendario" ColumnName="PermitirUltimoEstatusCalendario" />
+                <ScalarProperty Name="RepetirProcesoDespuesFallo" ColumnName="RepetirProcesoDespuesFallo" />
+                <ScalarProperty Name="MaximaRepeticionDeProceso" ColumnName="MaximaRepeticionDeProceso" />
+                <ScalarProperty Name="ProcesoIDDependiente" ColumnName="ProcesoIDDependiente" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetValuesPie" FunctionName="BUCDWModel.Store.sp_GetValuesPie">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BUCDWModel.sp_GetValuesPie_Result">
+                <ScalarProperty Name="TotalcorridoHoy" ColumnName="TotalcorridoHoy" />
+                <ScalarProperty Name="TotalNocorrido" ColumnName="TotalNocorrido" />
+                <ScalarProperty Name="TotalEnproceso" ColumnName="TotalEnproceso" />
+                <ScalarProperty Name="Total_conErrores" ColumnName="Total_conErrores" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="labelsPies">
+            <EntityTypeMapping TypeName="BUCDWModel.labelsPie">
+              <MappingFragment StoreEntitySet="labelsPie">
+                <ScalarProperty Name="LabelName" ColumnName="LabelName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="BUCDWModel.Log">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ReEjecutadoCodigo" ColumnName="ReEjecutadoCodigo" />
+                <ScalarProperty Name="MensajeError" ColumnName="MensajeError" />
+                <ScalarProperty Name="EstatusDelProceso" ColumnName="EstatusDelProceso" />
+                <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
+                <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
+                <ScalarProperty Name="FechaEjecucion" ColumnName="FechaEjecucion" />
+                <ScalarProperty Name="ProcesoNombre" ColumnName="ProcesoNombre" />
+                <ScalarProperty Name="ProcesoGUID" ColumnName="ProcesoGUID" />
+                <ScalarProperty Name="LogsID" ColumnName="LogsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="procesoFechasCierres">
+            <EntityTypeMapping TypeName="BUCDWModel.procesoFechasCierre">
+              <MappingFragment StoreEntitySet="procesoFechasCierre">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="day_clouser" ColumnName="day_clouser" />
+                <ScalarProperty Name="ID_process" ColumnName="ID_process" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ControlCierres">
+            <EntityTypeMapping TypeName="BUCDWModel.ControlCierre">
+              <MappingFragment StoreEntitySet="ControlCierres">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="day_cierre" ColumnName="day_cierre" />
+                <ScalarProperty Name="processName" ColumnName="processName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ListJobs">
+            <EntityTypeMapping TypeName="BUCDWModel.vw_ListJobs">
+              <MappingFragment StoreEntitySet="vw_ListJobs">
+                <ScalarProperty Name="serverName" ColumnName="serverName" />
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CorrerJob" FunctionName="BUCDWModel.Store.CorrerJob" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
