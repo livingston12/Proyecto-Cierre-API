@@ -47,7 +47,7 @@ This project was created to resolve the problem to excute the job
 from the BI team and cron the job an set the hours and time to execute.
 
 ### Built With
-`VueJS`
+- `VueJS`
 
 
 <!-- GETTING STARTED -->
@@ -57,7 +57,7 @@ from the BI team and cron the job an set the hours and time to execute.
 
 ### Prerequisites
 
-* [VS Studio](https://visualstudio.microsoft.com/es/)
+* [VS Studio code](https://code.visualstudio.com/)
 * [Sql Server](https://www.microsoft.com/en-in/sql-server/sql-server-downloads)
 
 ### Installation
