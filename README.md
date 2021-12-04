@@ -47,7 +47,7 @@ This project was created to resolve the problem to excute the job
 from the BI team and cron the job an set the hours and time to execute.
 
 ### Built With
-<a href="https://github.com/livingston12"> livingston12 </a> 
+`VueJS`
 
 
 <!-- GETTING STARTED -->
